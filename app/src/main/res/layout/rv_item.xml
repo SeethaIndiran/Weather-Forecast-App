@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="18dp"
+    android:layout_gravity="center"
+    android:layout_margin="4dp"
+    app:cardElevation="6dp"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_bc">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:textSize="@dimen/_15sdp"
+            android:padding="4dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_temp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_20"
+            android:textSize="20sp"
+            android:layout_below="@id/tv_time"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/image"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitXY"
+            android:layout_below="@id/tv_temp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/wind_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_23"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="@dimen/_15sdp"
+            android:padding="3dp"
+            android:layout_margin="4dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_below="@id/iv_image"/>
+
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
