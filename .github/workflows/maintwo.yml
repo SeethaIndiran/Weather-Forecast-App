@@ -13,7 +13,7 @@ jobs:
      
      runs-on: ubuntu-latest
      steps:
-          - name: checkout the code
+          - name: Checkout the code
             uses: actions/checkout@v2
 
           - name: Run lint
