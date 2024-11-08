@@ -4,6 +4,11 @@
     android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
 
 
@@ -32,7 +37,7 @@
             android:text="@string/dir"/>
 
 
-
+        </RadioGroup>
 
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.myweatherapplication.viewmodels
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.*
+import com.example.myweatherapplication.BuildConfig
 import com.example.myweatherapplication.util.Constants
 import com.example.myweatherapplication.util.ScreenState
 import com.example.myweatherapplication.data.repositories.WeatherReposotory
@@ -76,7 +77,7 @@ class WeatherViewModel @Inject constructor(val reposotory: WeatherReposotory, va
           //  try{
 
 
-           val weatherResult = reposotory.getForecastWeather(Constants.API_KEY, searchQuery, days)
+           val weatherResult = reposotory.getForecastWeather(BuildConfig.API_KEY, searchQuery, days)
 
 
               if(  weatherResult.isSuccessful) {

@@ -10,6 +10,7 @@ import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myweatherapplication.*
@@ -42,7 +43,7 @@ class TodayFragment : Fragment(){
     @Inject
     lateinit var sharedPref: SharedPreferences
 
-     private val viewModel : WeatherViewModel by viewModels({requireParentFragment()})
+    private val viewModel:WeatherViewModel by viewModels({requireParentFragment()})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +59,9 @@ class TodayFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpRecyclerView()
+        setUpRecyclerViewForWind()
+        setUpRecyclerViewPrecitation()
 
 
       //  setUpRecyclerViewPrecipitation()
@@ -85,9 +89,7 @@ class TodayFragment : Fragment(){
                 }
             }
         }
-        setUpRecyclerView()
-       setUpRecyclerViewForWind()
-        setUpRecyclerViewPrecitation()
+
 
     }
 
@@ -137,18 +139,8 @@ class TodayFragment : Fragment(){
 
         hideCustomProgressDialog()
 
-
-
-//                                       preAdapter.differ.submitList(it.forecast.forecastday[0].hour)
-
-                                       // windAdapter.differ.submitList(it.forecast.forecastday[0].hour)
-
-
-
-                                     viewModel.isCelsius.observe(viewLifecycleOwner) { tempUnit ->
-
-
-                                         if (tempUnit) {
+        viewModel.isCelsius.observe(viewLifecycleOwner) { tempUnit ->
+                                if (tempUnit) {
                                              mBinding.tvTemp.text =
                                                  it.current.temp_c.toString() + " " + "°C"
                                              mBinding.tvDay.text =

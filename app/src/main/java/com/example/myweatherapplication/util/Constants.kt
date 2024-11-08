@@ -7,7 +7,6 @@ import pub.devrel.easypermissions.EasyPermissions
 
 object Constants {
     const val BASE_URL = "http://api.weatherapi.com/"
-    const val  API_KEY = "826c95a7ecd64ab0971222840212910"
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
     const val LOCATION_DATABASE = "location_database"
     const val SHARED_PREFERENCES_NAME = "sharedPref"

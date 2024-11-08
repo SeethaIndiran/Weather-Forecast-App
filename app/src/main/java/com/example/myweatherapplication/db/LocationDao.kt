@@ -11,7 +11,7 @@ import com.example.myweatherapplication.models.CityTown
 interface LocationDao {
 
     @Insert
-    suspend fun insertLocation(location: CityTown)
+    suspend fun insertLocation( location: CityTown)
 
     @Delete
     suspend fun deleteLocation(location: CityTown)

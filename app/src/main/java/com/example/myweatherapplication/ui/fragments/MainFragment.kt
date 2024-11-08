@@ -25,6 +25,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -72,12 +73,12 @@ class MainFragment : Fragment(),EasyPermissions.PermissionCallbacks,
 
 
     var dialogView:View? = null
-    var dialogViewWind:View? = null
+     private lateinit var dialogViewWind:View
     var dialogViewPrecipitation:View? = null
     var dialogViewPressure:View? = null
     var dialogViewVisibility:View? = null
     var radioGroup:RadioGroup? = null
-    var radioGroupWind:RadioGroup? = null
+    private lateinit var radioGroupWind:RadioGroup
     var radioGroupPrecipitation:RadioGroup? = null
     var radioGroupPressure:RadioGroup? = null
     var radioGroupVisibility:RadioGroup? = null
@@ -696,11 +697,12 @@ private fun leaveFragment(){
         dialogViewWind = inflater.inflate(R.layout.dialog_wind, null)
 
 
-        radioGroupWind= dialogViewWind!!.findViewById<RadioGroup>(R.id.radioGroup)
-        kmBtn = radioGroupWind!!.findViewById<RadioButton>(R.id.km)
-        mphBtn = radioGroupWind!!.findViewById<RadioButton>(R.id.mph)
-        degreeBtn = radioGroupWind!!.findViewById<RadioButton>(R.id.degree)
-        dirBtn = radioGroupWind!!.findViewById<RadioButton>(R.id.dir)
+        radioGroupWind= dialogViewWind.findViewById<RadioGroup>(R.id.radioGroup)
+
+        kmBtn = radioGroupWind.findViewById<RadioButton>(R.id.km)
+        mphBtn = radioGroupWind.findViewById<RadioButton>(R.id.mph)
+        degreeBtn = radioGroupWind.findViewById<RadioButton>(R.id.degree)
+        dirBtn = radioGroupWind.findViewById<RadioButton>(R.id.dir)
         kmBtn!!.isChecked = true
         viewModel.windValue("km")
     }
