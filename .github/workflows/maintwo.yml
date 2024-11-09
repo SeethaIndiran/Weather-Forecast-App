@@ -95,6 +95,7 @@ jobs:
         with:
           api-level: 29
           build-tools: "29.0.3" 
+          cmdline-tools-version: "5.0"
 
       - name: Create local.properties
         run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
