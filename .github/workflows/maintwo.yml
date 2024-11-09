@@ -28,6 +28,9 @@ jobs:
                api-level: 30
                build-tools: "30.0.3"
 
+          - name: Create local.properties
+            run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties      
+
           - name: Grant execute permission for gradlew
             run: chmod +x ./gradlew
 
@@ -57,7 +60,10 @@ jobs:
            uses: android-actions/setup-android@v2
            with:
              api-level: 30
-             build-tools: "30.0.3"   
+             build-tools: "30.0.3"  
+
+         - name: Create local.properties
+           run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
 
          - name: Grant execute permission for gradlew
            run: chmod +x ./gradlew  
@@ -89,6 +95,9 @@ jobs:
         with:
           api-level: 29
           build-tools: "29.0.3" 
+
+      - name: Create local.properties
+        run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew   
