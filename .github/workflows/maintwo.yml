@@ -115,18 +115,11 @@ jobs:
             adb -s emulator-5554 wait-for-device
             ./gradlew connectedDebugAndroidTest
 
-      - name: Wait for Emulator to Stabilize
-        run: sleep 30
-
-      - name: Run Instrumentation Tests
-        run: ./gradlew connectedDebugAndroidTest    
-       
-
+        
       - name: Upload instrumentation test report
         uses: actions/upload-artifact@v4
         with:
           name: instrumentation_test_report
           path: app/build/reports/androidTests/connected/  
 
-    env:
-          ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60       
+    
