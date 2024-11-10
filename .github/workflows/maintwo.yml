@@ -111,12 +111,19 @@ jobs:
           arch:  x86_64 
           emulator-boot-timeout: 600
           disable-animations: true
-          script: ./gradlew connectedCheck
-        env:
-          ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60   
+
+      - name: Wait for Emulator to Stabilize
+        run: sleep 30
+
+      - name: Run Instrumentation Tests
+        run: ./gradlew connectedDebugAndroidTest    
+       
 
       - name: Upload instrumentation test report
         uses: actions/upload-artifact@v4
         with:
           name: instrumentation_test_report
-          path: app/build/reports/androidTests/connected/              
+          path: app/build/reports/androidTests/connected/  
+
+    env:
+          ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60       
