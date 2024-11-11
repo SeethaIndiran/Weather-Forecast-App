@@ -1,16 +1,16 @@
 name: CI
 on:
 
-  push: 
+  push:
     branches: [  master ]
   pull_request:
     branches: [ master ]
 
 
-   
+
 jobs:
   lint:
-     
+
      runs-on: ubuntu-latest
      steps:
           - name: Checkout the code
@@ -19,7 +19,7 @@ jobs:
           - name: Set up JDK 17
             uses: actions/setup-java@v2
             with:
-               distribution: 'zulu' 
+               distribution: 'zulu'
                java-version: '17'
 
           - name: Set up Android SDK
@@ -29,20 +29,20 @@ jobs:
                build-tools: "30.0.3"
 
           - name: Create local.properties
-            run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties      
+            run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties
 
           - name: Grant execute permission for gradlew
             run: chmod +x ./gradlew
 
           - name: Run lint
             run: ./gradlew lintDebug
-         
+
           - name: Upload html test report
             uses: actions/upload-artifact@v4
             with:
                name: index.html
                path: app/build/reports/lint-results-debug.html
-  
+
   unit-test:
      needs: [lint]
      runs-on: ubuntu-latest
@@ -53,20 +53,20 @@ jobs:
          - name: Set up JDK 17
            uses: actions/setup-java@v2
            with:
-              distribution: 'zulu' 
+              distribution: 'zulu'
               java-version: '17'
 
          - name: Set up Android SDK
            uses: android-actions/setup-android@v2
            with:
              api-level: 30
-             build-tools: "30.0.3"  
+             build-tools: "30.0.3"
 
          - name: Create local.properties
-           run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
+           run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties
 
          - name: Grant execute permission for gradlew
-           run: chmod +x ./gradlew  
+           run: chmod +x ./gradlew
 
          - name: Run tests
            run: ./gradlew test
@@ -76,7 +76,7 @@ jobs:
            with:
                name: unit_test_report
                path: app/build/reports/tests/testDebugUnitTest/
- 
+
   instrumentation-test:
     needs: [unit-test]
     runs-on: ubuntu-latest
@@ -87,28 +87,28 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          distribution: 'zulu' 
+          distribution: 'zulu'
           java-version: '17'
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 29
-          build-tools: "29.0.3" 
-        
+          build-tools: "29.0.3"
+
 
       - name: Create local.properties
-        run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
+        run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew   
+        run: chmod +x ./gradlew
 
       - name: Start emulator and run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           target: google_apis
-          arch:  x86_64 
+          arch:  x86_64
           emulator-boot-timeout: 900
           disable-animations: true
           script: |
@@ -170,55 +170,3 @@ jobs:
         with:
           name: expense-manager.apk
           path: app/build/outputs/apk/debug/app-debug.apk
-
-  static-code-analysis:
-    needs: [instrumentation-test]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
-    
-      - name: set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: 17
-          distribution: 'temurin'  # specify the distribution (e.g., 'temurin' for AdoptOpenJDK)
-          java-package: jdk
-          architecture: x64
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew 
-
-      - name: Set up Android SDK
-        env:
-           ANDROID_HOME: /usr/local/lib/android/sdk
-           ANDROID_SDK_ROOT: /usr/local/lib/android/sdk   
-
-      - name: SonarCloud Scan
-        run: ./gradlew app:sonarqube -Dsonar.login=${{ secrets.TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
-
-  package:
-    needs: [static-code-analysis]
-    name: Generate APK
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-
-      - name: set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-
-      - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: expense-manager.apk
-          path: app/build/outputs/apk/debug/app-debug.apk         
-
-    
