@@ -93,8 +93,8 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
-          api-level: 30
-          build-tools: "30.0.3" 
+          api-level: 29
+          build-tools: "29.0.3" 
         
 
       - name: Create local.properties
@@ -106,7 +106,7 @@ jobs:
       - name: Start emulator and run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 29
           target: google_apis
           arch:  x86_64 
           emulator-boot-timeout: 900
