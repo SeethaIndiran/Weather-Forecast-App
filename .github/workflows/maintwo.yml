@@ -93,8 +93,8 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
-          api-level: 30
-          build-tools: "30.0.3" 
+          api-level: 29
+          build-tools: "29.0.3" 
         
 
       - name: Create local.properties
@@ -106,31 +106,13 @@ jobs:
       - name: Start emulator and run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 29
           target: google_apis
-          arch:  x86 
-          emulator-boot-timeout: 1800
-          force-avd-creation: true 
+          arch:  x86_64 
+          emulator-boot-timeout: 900
           disable-animations: true
-          hardware-profile: "pixel"
-          disable-linux-hw-accel: true
-          emulator-options: "-no-window -noaudio -no-snapshot -no-boot-anim -gpu swiftshader_indirect"
           script: |
             adb -s emulator-5554 wait-for-device
-            adb -s emulator-5554 shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
-            adb -s emulator-5554 shell 'while [[ $(getprop init.svc.bootanim) != "stopped" ]]; do sleep 5; done;'
-            sleep 30  # Additional wait time to ensure stability
-
-            for i in 1 2 3; do
-              adb -s emulator-5554 shell settings put global window_animation_scale 0.0 && break || sleep 10
-            done
-            for i in 1 2 3; do
-              adb -s emulator-5554 shell settings put global transition_animation_scale 0.0 && break || sleep 10
-            done
-            for i in 1 2 3; do
-              adb -s emulator-5554 shell settings put global animator_duration_scale 0.0 && break || sleep 10
-            done
-
             ./gradlew connectedDebugAndroidTest
 
       - name: Upload instrumentation test report
@@ -138,9 +120,6 @@ jobs:
         with:
           name: instrumentation_test_report
           path: app/build/reports/androidTests/connected/
-
-    env:
-      ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60 
           
 
 
