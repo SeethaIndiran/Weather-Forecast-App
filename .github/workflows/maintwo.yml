@@ -119,6 +119,18 @@ jobs:
             adb -s emulator-5554 wait-for-device
             adb -s emulator-5554 shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
             adb -s emulator-5554 shell 'while [[ $(getprop init.svc.bootanim) != "stopped" ]]; do sleep 5; done;'
+            sleep 30  # Additional wait time to ensure stability
+
+            for i in 1 2 3; do
+              adb -s emulator-5554 shell settings put global window_animation_scale 0.0 && break || sleep 10
+            done
+            for i in 1 2 3; do
+              adb -s emulator-5554 shell settings put global transition_animation_scale 0.0 && break || sleep 10
+            done
+            for i in 1 2 3; do
+              adb -s emulator-5554 shell settings put global animator_duration_scale 0.0 && break || sleep 10
+            done
+
             ./gradlew connectedDebugAndroidTest
 
       - name: Upload instrumentation test report
@@ -126,6 +138,10 @@ jobs:
         with:
           name: instrumentation_test_report
           path: app/build/reports/androidTests/connected/
+
+    env:
+      ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60 
+          
 
 
                
