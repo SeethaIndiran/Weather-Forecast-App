@@ -107,13 +107,12 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
-          target: google_apis
+          target: android-30
           arch:  x86 
           emulator-boot-timeout: 1200
           disable-animations: true
           script: |
             adb -s emulator-5554 wait-for-device
-             adb shell input keyevent 82 # Unlock the emulator screen
             ./gradlew connectedDebugAndroidTest
 
       - name: Upload instrumentation test report
