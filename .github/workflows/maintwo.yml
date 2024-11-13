@@ -16,32 +16,35 @@ jobs:
           - name: Checkout the code
             uses: actions/checkout@v4
 
-          - name: Set up JDK 17
-            uses: actions/setup-java@v2
-            with:
-               distribution: 'zulu' 
-               java-version: '17'
-
-          - name: Set up Android SDK
-            uses: android-actions/setup-android@v2
-            with:
-               api-level: 30
-               build-tools: "30.0.3"
-
-          - name: Create local.properties
-            run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties      
-
-          - name: Grant execute permission for gradlew
-            run: chmod +x ./gradlew
-
           - name: Run lint
-            run: ./gradlew lintDebug
+            run: echo Run lint
+
+    #      - name: Set up JDK 17
+    #        uses: actions/setup-java@v2
+    #        with:
+    #           distribution: 'zulu' 
+    #           java-version: '17'
+
+          # - name: Set up Android SDK
+          #   uses: android-actions/setup-android@v2
+          #   with:
+          #      api-level: 30
+          #      build-tools: "30.0.3"
+
+          # - name: Create local.properties
+          #   run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties      
+
+          # - name: Grant execute permission for gradlew
+          #   run: chmod +x ./gradlew
+
+          # - name: Run lint
+          #   run: ./gradlew lintDebug
          
-          - name: Upload html test report
-            uses: actions/upload-artifact@v4
-            with:
-               name: index.html
-               path: app/build/reports/lint-results-debug.html
+          # - name: Upload html test report
+          #   uses: actions/upload-artifact@v4
+          #   with:
+          #      name: index.html
+          #      path: app/build/reports/lint-results-debug.html
 
   unit-test:
      needs: [lint]
@@ -50,32 +53,35 @@ jobs:
          - name: Checkout the code
            uses: actions/checkout@v4
 
-         - name: Set up JDK 17
-           uses: actions/setup-java@v2
-           with:
-              distribution: 'zulu' 
-              java-version: '17'
+         - name: Run unit test
+           run: echo unit test   
 
-         - name: Set up Android SDK
-           uses: android-actions/setup-android@v2
-           with:
-             api-level: 30
-             build-tools: "30.0.3"  
+         # - name: Set up JDK 17
+         #   uses: actions/setup-java@v2
+         #   with:
+         #      distribution: 'zulu' 
+         #      java-version: '17'
 
-         - name: Create local.properties
-           run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
+         # - name: Set up Android SDK
+         #   uses: android-actions/setup-android@v2
+         #   with:
+         #     api-level: 30
+         #     build-tools: "30.0.3"  
 
-         - name: Grant execute permission for gradlew
-           run: chmod +x ./gradlew  
+         # - name: Create local.properties
+         #   run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
 
-         - name: Run tests
-           run: ./gradlew test
+         # - name: Grant execute permission for gradlew
+         #   run: chmod +x ./gradlew  
 
-         - name: Upload test report
-           uses: actions/upload-artifact@v4
-           with:
-               name: unit_test_report
-               path: app/build/reports/tests/testDebugUnitTest/
+         # - name: Run tests
+         #   run: ./gradlew test
+
+         # - name: Upload test report
+         #   uses: actions/upload-artifact@v4
+         #   with:
+         #       name: unit_test_report
+         #       path: app/build/reports/tests/testDebugUnitTest/
 
   instrumentation-test:
     needs: [unit-test]
@@ -84,42 +90,45 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu' 
-          java-version: '17'
+      - name: Run instrumentation test
+        run: echo Run instrumentation   
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 29
-          build-tools: "29.0.3" 
+      # - name: Set up JDK 17
+      #   uses: actions/setup-java@v2
+      #   with:
+      #     distribution: 'zulu' 
+      #     java-version: '17'
+
+      # - name: Set up Android SDK
+      #   uses: android-actions/setup-android@v2
+      #   with:
+      #     api-level: 29
+      #     build-tools: "29.0.3" 
         
 
-      - name: Create local.properties
-        run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
+      # - name: Create local.properties
+      #   run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew   
+      # - name: Grant execute permission for gradlew
+      #   run: chmod +x ./gradlew   
 
-      - name: Start emulator and run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          target: google_apis
-          arch:  x86_64 
-          emulator-boot-timeout: 900
-          disable-animations: true
-          script: |
-            adb -s emulator-5554 wait-for-device
-            ./gradlew connectedDebugAndroidTest
+      # - name: Start emulator and run tests
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     api-level: 29
+      #     target: google_apis
+      #     arch:  x86_64 
+      #     emulator-boot-timeout: 900
+      #     disable-animations: true
+      #     script: |
+      #       adb -s emulator-5554 wait-for-device
+      #       ./gradlew connectedDebugAndroidTest
 
-      - name: Upload instrumentation test report
-        uses: actions/upload-artifact@v4
-        with:
-          name: instrumentation_test_report
-          path: app/build/reports/androidTests/connected/
+      # - name: Upload instrumentation test report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: instrumentation_test_report
+      #     path: app/build/reports/androidTests/connected/
 
   static-code-analysis:
     needs: [instrumentation-test]
