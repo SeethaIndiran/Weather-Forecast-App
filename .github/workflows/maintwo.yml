@@ -107,10 +107,12 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
-          target: android-30
+          target: google_apis
           arch:  x86 
           emulator-boot-timeout: 1200
           disable-animations: true
+          hardware-profile: "pixel"
+          disable-linux-hw-accel: true 
           script: |
             adb -s emulator-5554 wait-for-device
             ./gradlew connectedDebugAndroidTest
