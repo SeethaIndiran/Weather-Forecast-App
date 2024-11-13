@@ -79,7 +79,7 @@ jobs:
 
   instrumentation-test:
     needs: [unit-test]
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
@@ -109,12 +109,16 @@ jobs:
           api-level: 30
           target: google_apis
           arch:  x86 
-          emulator-boot-timeout: 1200
+          emulator-boot-timeout: 1800
+          force-avd-creation: true 
           disable-animations: true
           hardware-profile: "pixel"
-          disable-linux-hw-accel: true 
+          disable-linux-hw-accel: true
+          emulator-options: "-no-window -noaudio -no-snapshot -no-boot-anim -gpu swiftshader_indirect"
           script: |
             adb -s emulator-5554 wait-for-device
+            adb -s emulator-5554 shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+            adb -s emulator-5554 shell 'while [[ $(getprop init.svc.bootanim) != "stopped" ]]; do sleep 5; done;'
             ./gradlew connectedDebugAndroidTest
 
       - name: Upload instrumentation test report
