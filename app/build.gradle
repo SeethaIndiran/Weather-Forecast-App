@@ -46,6 +46,10 @@ android {
 
         }
     }
+    kotlinOptions {
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    }
+
 
 
     buildTypes {
