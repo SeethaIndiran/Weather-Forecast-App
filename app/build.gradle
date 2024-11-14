@@ -96,8 +96,6 @@ android {
             // Source directories (ensure that SonarQube analyzes your source code correctly)
             property "sonar.sources", "src/main/java, src/main/kotlin"  // Adjust if you're using Kotlin, Java, or other languages
 
-            // Test directories (for unit tests)
-            property "sonar.tests", "src/test/java, src/test/kotlin"  // Adjust according to your test directory
 
             // Unit Test Reports (JUnit, TestNG, etc.)
             property "sonar.junit.reportPaths", "build/test-results/test" // Adjust for your test report location
