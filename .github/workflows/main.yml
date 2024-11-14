@@ -174,10 +174,10 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8 (Zulu)
+      - name: Set up JDK 11 (Zulu)
         uses: actions/setup-java@v2
         with:
-            java-version: '8'  # Just specify '8' for JDK 8
+            java-version: '11'  # Just specify '8' for JDK 8
             java-package: jdk
             architecture: x64
             check-latest: false
