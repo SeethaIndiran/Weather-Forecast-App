@@ -181,7 +181,7 @@ jobs:
           java-package: jdk
           architecture: x64
           check-latest: false
-          distribution: 'adoptium' 
+          distribution: 'zulu' 
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
