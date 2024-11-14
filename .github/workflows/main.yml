@@ -183,6 +183,11 @@ jobs:
             check-latest: false
             distribution: 'zulu'  # Zulu OpenJDK distribution
 
+      - name: Create local.properties file
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+        env:
+         ANDROID_HOME: /opt/hostedtoolcache/Android/sdk  # Path to Android SDK in the GitHub runner
+      
       - name: Grant execute permissions to gradlew
         run: chmod +x ./gradlew  # Grant execute permissions to gradlew
 
