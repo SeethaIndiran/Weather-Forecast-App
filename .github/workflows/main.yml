@@ -183,6 +183,9 @@ jobs:
             check-latest: false
             distribution: 'zulu'  # Zulu OpenJDK distribution
 
+      - name: Grant execute permissions to gradlew
+        run: chmod +x ./gradlew  # Grant execute permissions to gradlew
+
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
 
