@@ -175,6 +175,10 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 1.8
+          java-package: jdk
+          architecture: x64
+          check-latest: false
+          distribution: 'adoptopenjdk' 
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
