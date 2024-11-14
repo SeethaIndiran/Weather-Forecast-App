@@ -92,7 +92,7 @@ android {
              property "sonar.host.url", "http://localhost:9000" // Uncomment for local SonarQube server
 
             // Authentication Token (SonarCloud or local SonarQube)
-            property "sonar.login", project.findProperty("sonar.login") // Make sure to store this token in the gradle.properties or as an environment variable
+            property "sonar.login", project.findProperty("sonar.login") ?: System.getenv("SONAR_TOKEN") // Make sure to store this token in the gradle.properties or as an environment variable
 
             // Language of the project (e.g., for Java/Kotlin)
             property "sonar.language", "java"  // For Java, Kotlin, etc. SonarQube will auto-detect most languages
