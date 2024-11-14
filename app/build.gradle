@@ -231,12 +231,5 @@ dependencies {
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
 
 
-    sonarqube {
-        properties {
-            property "sonar.projectKey", "MyWeatherApplicationApp" // No spaces or special characters
-            property "sonar.organization", "seethaindiran" // Replace with your organization key
-            property "sonar.host.url", "https://sonarcloud.io"
-            property "sonar.login", System.getenv("SONAR_TOKEN") // Token from GitHub secrets
-        }
-    }
+
 }
