@@ -169,4 +169,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: expense-manager.apk
+<<<<<<< HEAD:github/workflows/WeatherAppBuildCICD
           path: app/build/outputs/apk/debug/app-debug.apk
+=======
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+        
+
+    
+>>>>>>> 41766cb03fca0e813077ea2e3c60fbcf33b0ce23:.github/workflows/maintwo.yml
