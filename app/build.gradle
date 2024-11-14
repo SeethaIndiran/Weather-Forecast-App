@@ -71,45 +71,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    sonarqube {
-        properties {
-            // Project Key
-            property "sonar.projectKey", "seethaindiran_WeatherForecastApp" // Replace with your project key
 
-            // Project Name (optional, but helpful)
-            property "sonar.projectName", "Weather Forecast App" // Optional
-
-            // Project Version (optional)
-            property "sonar.projectVersion", "1.0" // Optional
-
-            // SonarCloud Organization (required for SonarCloud projects)
-            property "sonar.organization", "SeethaIndiran"  // Replace with your organization name in SonarCloud (for SonarCloud only)
-
-            // SonarCloud URL (for SonarCloud)
-            property "sonar.host.url", "https://sonarcloud.io" // Use this for SonarCloud
-
-            // SonarQube server URL (for local SonarQube server)
-             property "sonar.host.url", "http://localhost:9000" // Uncomment for local SonarQube server
-
-            // Authentication Token (SonarCloud or local SonarQube)
-            property "sonar.login", project.findProperty("sonar.login") ?: System.getenv("SONAR_TOKEN") // Make sure to store this token in the gradle.properties or as an environment variable
-
-            // Language of the project (e.g., for Java/Kotlin)
-            property "sonar.language", "java"  // For Java, Kotlin, etc. SonarQube will auto-detect most languages
-
-            // Source directories (ensure that SonarQube analyzes your source code correctly)
-            property "sonar.sources", "src/main/java, src/main/kotlin"  // Adjust if you're using Kotlin, Java, or other languages
-
-
-            // Unit Test Reports (JUnit, TestNG, etc.)
-            property "sonar.junit.reportPaths", "build/test-results/test" // Adjust for your test report location
-
-            // Code Coverage (JaCoCo, etc.)
-            property "sonar.jacoco.reportPaths", "build/jacoco/test.exec"  // Adjust to where your code coverage reports are generated (if using JaCoCo)
-
-
-        }
-    }
 
 }
 
