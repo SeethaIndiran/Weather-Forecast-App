@@ -170,12 +170,12 @@ jobs:
             disable-animations: true
             script: |
               adb -s emulator-5554 wait-for-device
-              ./gradlew connectedDebugAndroidTest
+              ./gradlew connectedFunctionalDebugAndroidTest
 
-      - name: Upload instrumentation test report
+      - name: Upload Functional test report
         uses: actions/upload-artifact@v4
         with:
-            name: instrumentation_test_report
+            name: functional_test_report
             path: app/build/reports/androidTests/connected/
 
 
