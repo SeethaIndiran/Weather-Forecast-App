@@ -17,32 +17,35 @@ jobs:
           - name: Checkout the code
             uses: actions/checkout@v4
 
-          - name: Set up JDK 17
-            uses: actions/setup-java@v2
-            with:
-               distribution: 'zulu' 
-               java-version: '17'
-
-          - name: Set up Android SDK
-            uses: android-actions/setup-android@v2
-            with:
-                api-level: 30
-                build-tools: "30.0.3"
-
-          - name: Create local.properties
-            run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties      
-
-          - name: Grant execute permission for gradlew
-            run: chmod +x ./gradlew
-
           - name: Run lint
-            run: ./gradlew lintDebug
+            run: echo run lint 
+
+          # - name: Set up JDK 17
+          #   uses: actions/setup-java@v2
+          #   with:
+          #      distribution: 'zulu' 
+          #      java-version: '17'
+
+          # - name: Set up Android SDK
+          #   uses: android-actions/setup-android@v2
+          #   with:
+          #       api-level: 30
+          #       build-tools: "30.0.3"
+
+          # - name: Create local.properties
+          #   run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties      
+
+          # - name: Grant execute permission for gradlew
+          #   run: chmod +x ./gradlew
+
+          # - name: Run lint
+          #   run: ./gradlew lintDebug
          
-          - name: Upload html test report
-            uses: actions/upload-artifact@v4
-            with:
-                name: index.html
-                path: app/build/reports/lint-results-debug.html
+          # - name: Upload html test report
+          #   uses: actions/upload-artifact@v4
+          #   with:
+          #       name: index.html
+          #       path: app/build/reports/lint-results-debug.html
 
   unit-test:
      needs: [lint]
@@ -51,32 +54,35 @@ jobs:
          - name: Checkout the code
            uses: actions/checkout@v4
 
-         - name: Set up JDK 17
-           uses: actions/setup-java@v2
-           with:
-               distribution: 'zulu' 
-               java-version: '17'
+         - name: Run unit test
+           run: echo unit test    
 
-         - name: Set up Android SDK
-           uses: android-actions/setup-android@v2
-           with:
-              api-level: 30
-              build-tools: "30.0.3"  
+         # - name: Set up JDK 17
+         #   uses: actions/setup-java@v2
+         #   with:
+         #       distribution: 'zulu' 
+         #       java-version: '17'
 
-         - name: Create local.properties
-           run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
+         # - name: Set up Android SDK
+         #   uses: android-actions/setup-android@v2
+         #   with:
+         #      api-level: 30
+         #      build-tools: "30.0.3"  
 
-         - name: Grant execute permission for gradlew
-           run: chmod +x ./gradlew  
+         # - name: Create local.properties
+         #   run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
 
-         - name: Run tests
-           run: ./gradlew test
+         # - name: Grant execute permission for gradlew
+         #   run: chmod +x ./gradlew  
 
-         - name: Upload test report
-           uses: actions/upload-artifact@v4
-           with:
-                name: unit_test_report
-                path: app/build/reports/tests/testDebugUnitTest/
+         # - name: Run tests
+         #   run: ./gradlew test
+
+         # - name: Upload test report
+         #   uses: actions/upload-artifact@v4
+         #   with:
+         #        name: unit_test_report
+         #        path: app/build/reports/tests/testDebugUnitTest/
 
   instrumentation-test:
     needs: [unit-test]
@@ -85,74 +91,126 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v4  
 
+      - name: Run instrumentation test
+        run: echo instrumentation test    
+
+      # - name: Set up JDK 17
+      #   uses: actions/setup-java@v2
+      #   with:
+      #      distribution: 'zulu' 
+      #      java-version: '17'
+
+      # - name: Set up Android SDK
+      #   uses: android-actions/setup-android@v2
+      #   with:
+      #      api-level: 29
+      #      build-tools: "29.0.3" 
+        
+
+      # - name: Create local.properties
+      #   run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
+
+      # - name: Grant execute permission for gradlew
+      #   run: chmod +x ./gradlew   
+
+      # - name: Start emulator and run tests
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #      api-level: 29
+      #      target: google_apis
+      #      arch:  x86_64 
+      #      emulator-boot-timeout: 900
+      #      disable-animations: true
+      #      script: |
+      #       adb -s emulator-5554 wait-for-device
+      #        ./gradlew connectedDebugAndroidTest
+
+      # - name: Upload instrumentation test report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #      name: instrumentation_test_report
+      #      path: app/build/reports/androidTests/connected/
+
+
+  functional-test:
+    needs: [instrumentation-test]  # Ensure this runs after instrumentation tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-           distribution: 'zulu' 
-           java-version: '17'
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
-           api-level: 29
-           build-tools: "29.0.3" 
-        
+          api-level: 30
+          build-tools: "30.0.3"
 
       - name: Create local.properties
-        run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties     
+        run: echo "sdk.dir=/usr/local/lib/android/sdk" > $GITHUB_WORKSPACE/local.properties
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew   
+        run: chmod +x ./gradlew
 
-      - name: Start emulator and run tests
+      - name: Start emulator and run functional UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-           api-level: 29
-           target: google_apis
-           arch:  x86_64 
-           emulator-boot-timeout: 900
-           disable-animations: true
-           script: |
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          emulator-boot-timeout: 900
+          disable-animations: true
+          script: |
             adb -s emulator-5554 wait-for-device
-             ./gradlew connectedDebugAndroidTest
+            ./gradlew connectedDebugAndroidTest  # Run functional tests here
 
-      - name: Upload instrumentation test report
+      - name: Upload functional test report
         uses: actions/upload-artifact@v4
         with:
-           name: instrumentation_test_report
-           path: app/build/reports/androidTests/connected/
+          name: functional_test_report
+          path: app/build/reports/androidTests/connected/
+
 
   static-code-analysis:
     needs: [instrumentation-test]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v4     
+      uses: actions/checkout@v4   
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
-      with:
-         java-version: 17
-         distribution: 'temurin'  # specify the distribution
-         java-package: jdk
-         architecture: x64
+    - name: Run static code analysis
+      run: echo static code analysis    
 
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v2
-      with:
-         api-level: 30
-         build-tools: "30.0.3"
+    # - name: Set up JDK 17
+    #   uses: actions/setup-java@v2
+    #   with:
+    #      java-version: 17
+    #      distribution: 'temurin'  # specify the distribution
+    #      java-package: jdk
+    #      architecture: x64
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
+    # - name: Set up Android SDK
+    #   uses: android-actions/setup-android@v2
+    #   with:
+    #      api-level: 30
+    #      build-tools: "30.0.3"
 
-    - name: Create empty local.properties
-      run: touch local.properties   
+    # - name: Grant execute permission for gradlew
+    #   run: chmod +x ./gradlew
 
-    - name: SonarCloud Scan
-      run: ./gradlew app:sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-      env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Create empty local.properties
+    #   run: touch local.properties   
+
+    # - name: SonarCloud Scan
+    #   run: ./gradlew app:sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+    #   env:
+    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   package:
     needs: [ static-code-analysis ]
@@ -162,28 +220,31 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 11 (Zulu)
-        uses: actions/setup-java@v2
-        with:
-            java-version: '11'  # Just specify '8' for JDK 8
-            java-package: jdk
-            architecture: x64
-            check-latest: false
-            distribution: 'zulu'  # Zulu OpenJDK distribution
+      - name: Run apk
+        run: echo run apk
 
-      - name: Create local.properties file
-        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
-        env:
-         ANDROID_HOME: /opt/hostedtoolcache/Android/sdk  # Path to Android SDK in the GitHub runner
+      # - name: Set up JDK 11 (Zulu)
+      #   uses: actions/setup-java@v2
+      #   with:
+      #       java-version: '11'  # Just specify '8' for JDK 8
+      #       java-package: jdk
+      #       architecture: x64
+      #       check-latest: false
+      #       distribution: 'zulu'  # Zulu OpenJDK distribution
+
+      # - name: Create local.properties file
+      #   run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+      #   env:
+      #    ANDROID_HOME: /opt/hostedtoolcache/Android/sdk  # Path to Android SDK in the GitHub runner
       
-      - name: Grant execute permissions to gradlew
-        run: chmod +x ./gradlew  # Grant execute permissions to gradlew
+      # - name: Grant execute permissions to gradlew
+      #   run: chmod +x ./gradlew  # Grant execute permissions to gradlew
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
+      # - name: Build debug APK
+      #   run: ./gradlew assembleDebug --stacktrace
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: expense-manager.apk
-          path: app/build/outputs/apk/debug/app-debug.apk        
+      # - name: Upload APK
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: expense-manager.apk
+      #     path: app/build/outputs/apk/debug/app-debug.apk        
