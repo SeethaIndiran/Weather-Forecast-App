@@ -258,7 +258,7 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
          appId: ${{ secrets.FIREBASE_APP_ID }}
-         serviceCredentialsJson: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
          groups: testers  # Define your Firebase tester group
          releaseNotes: "New build from GitHub Actions CI/CD"
          file: app/build/outputs/apk/release/app-release.apk       
