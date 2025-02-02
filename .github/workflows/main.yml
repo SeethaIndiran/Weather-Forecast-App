@@ -219,37 +219,51 @@ jobs:
 
   package:
      needs: [ static-code-analysis ]
-     name: Generate APK
+     name: Generate APK & Upload to Firebase
      runs-on: ubuntu-latest
      steps:
       - name: Checkout the code
         uses: actions/checkout@v4
 
-      - name: Run apk
-        run: echo run apk
-
-      # - name: Set up JDK 11 (Zulu)
-      #   uses: actions/setup-java@v2
-      #   with:
-      #       java-version: '11'  # Just specify '8' for JDK 8
-      #       java-package: jdk
-      #       architecture: x64
-      #       check-latest: false
-      #       distribution: 'zulu'  # Zulu OpenJDK distribution
-
-      # - name: Create local.properties file
-      #   run: echo "sdk.dir=$ANDROID_HOME" > local.properties
-      #   env:
-      #    ANDROID_HOME: /opt/hostedtoolcache/Android/sdk  # Path to Android SDK in the GitHub runner
       
-      # - name: Grant execute permissions to gradlew
-      #   run: chmod +x ./gradlew  # Grant execute permissions to gradlew
 
-      # - name: Build debug APK
-      #   run: ./gradlew assembleDebug --stacktrace
+      - name: Set up JDK 11 (Zulu)
+        uses: actions/setup-java@v2
+        with:
+             java-version: '11'  # Just specify '8' for JDK 8
+             java-package: jdk
+             architecture: x64
+             check-latest: false
+             distribution: 'zulu'  # Zulu OpenJDK distribution
 
-      # - name: Upload APK
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: expense-manager.apk
-      #     path: app/build/outputs/apk/debug/app-debug.apk        
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+            api-level: 30
+            build-tools: "30.0.3"        
+
+      - name: Create local.properties file
+        run: echo "sdk.dir=$ANDROID_HOME" > local.properties
+        env:
+          ANDROID_HOME: /opt/hostedtoolcache/Android/sdk  # Path to Android SDK in the GitHub runner
+      
+      - name: Grant execute permissions to gradlew
+        run: chmod +x ./gradlew  # Grant execute permissions to gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+         name: app-release.apk
+         path: app/build/outputs/apk/release/app-release.apk  
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+         appId: ${{ secrets.FIREBASE_APP_ID }}
+         serviceCredentialsJson: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+         groups: testers  # Define your Firebase tester group
+         releaseNotes: "New build from GitHub Actions CI/CD"
+         file: app/build/outputs/apk/release/app-release.apk       
