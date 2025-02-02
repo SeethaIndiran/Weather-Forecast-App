@@ -191,7 +191,7 @@ jobs:
         uses: android-actions/setup-android@v2
         with:
             api-level: 30
-            build-tools: 30.0.3"        
+            build-tools: "30.0.3"        
 
       - name: Create local.properties file
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
@@ -201,22 +201,24 @@ jobs:
       - name: Grant execute permissions to gradlew
         run: chmod +x ./gradlew  # Grant execute permissions to gradlew
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-         name: expense-manager.apk
-         path: app/build/outputs/apk/debug/app-debug.apk  
-
-      - name: Clean & Build APK
+      - name: Clean & Build Release APK
         run: |
          ./gradlew clean
-         ./gradlew assembleRelease
+         ./gradlew assembleRelease --stacktrace
 
       - name: Check APK File Existence
-        run: ls -R app/build/outputs/apk/release/    
+        run: ls -R app/build/outputs/apk/release/       
+     
+
+      - name: Upload Release APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+         name: expense-manager-release.apk
+         path: app/build/outputs/apk/release/app-release.apk  
+
+    
+
+     
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -225,4 +227,4 @@ jobs:
          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
          groups: testers  # Define your Firebase tester group
          releaseNotes: "New build from GitHub Actions CI/CD"
-         file: app/build/outputs/apk/debug/app-debug.apk       
+         file: app/build/outputs/apk/release/app-release.apk       
