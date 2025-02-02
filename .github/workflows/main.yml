@@ -204,7 +204,7 @@ jobs:
       - name: Clean & Build Release APK
         run: |
          ./gradlew clean
-         ./gradlew assembleRelease --stacktrace
+         ./gradlew assembleFunctionalRelease  --stacktrace
 
       - name: Check APK File Existence
         run: ls -R app/build/outputs/apk/release/       
