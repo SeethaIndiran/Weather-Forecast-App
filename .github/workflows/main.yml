@@ -207,8 +207,8 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-         name: app-release.apk
-         path: app/build/outputs/apk/release/app-release.apk  
+         name: expense-manager.apk
+         path: app/build/outputs/apk/debug/app-debug.apk  
 
       - name: Clean & Build APK
         run: |
@@ -225,4 +225,4 @@ jobs:
          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
          groups: testers  # Define your Firebase tester group
          releaseNotes: "New build from GitHub Actions CI/CD"
-         file: app/build/outputs/apk/release/app-release.apk       
+         file: app/build/outputs/apk/debug/app-debug.apk       
