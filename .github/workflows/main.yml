@@ -216,7 +216,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
          name: expense-manager-release.apk
-         path: app/functional/release/*.apk
+         path: app/functional/release/app-release.apk
 
 
 
@@ -242,7 +242,7 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: app/functional/release/*.apk
+          file:  app/functional/release/app-release.apk
           releaseNotes: ${{ inputs.release_notes }}
 
 
