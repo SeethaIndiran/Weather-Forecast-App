@@ -47,7 +47,7 @@ jobs:
                  path: app/build/reports/lint-results-debug.html
 
   unit-test:
-     needs: [lint]
+     needs: []
      runs-on: ubuntu-latest
      steps:
          - name: Checkout the code
@@ -83,7 +83,7 @@ jobs:
                  path: app/build/reports/tests/testDebugUnitTest/
 
   instrumentation-test:
-    needs: [unit-test]
+    needs: []
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -135,7 +135,7 @@ jobs:
 
 
   static-code-analysis:
-     needs: [instrumentation-test]
+     needs: []
      runs-on: ubuntu-latest
      steps:
        - name: Checkout the code
@@ -169,8 +169,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   package:
-     needs: [ static-code-analysis ]
-     name: Generate APK & Upload to Firebase
+     needs: [  ]
+     name: Generate APK 
      runs-on: ubuntu-latest
      steps:
       - name: Checkout the code
@@ -187,11 +187,7 @@ jobs:
              check-latest: false
              distribution: 'zulu'  # Zulu OpenJDK distribution
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-            api-level: 30
-            build-tools: "30.0.3"        
+           
 
       - name: Create local.properties file
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
@@ -201,30 +197,25 @@ jobs:
       - name: Grant execute permissions to gradlew
         run: chmod +x ./gradlew  # Grant execute permissions to gradlew
 
-      - name: Clean & Build Release APK
-        run: |
-         ./gradlew clean
-         ./gradlew assembleFunctionalRelease  --stacktrace
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace   
 
-      - name: Check APK File Existence
-        run: ls -R app/build/outputs/apk/release/       
+      - name: Build release APK
+        run: ./gradlew assembleRelease --stacktrace 
+
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk    
+           
      
 
-      - name: Upload Release APK as Artifact
+      - name: Upload  APK as Artifact
         uses: actions/upload-artifact@v4
         with:
          name: expense-manager-release.apk
          path: app/build/outputs/apk/release/app-release.apk  
 
-    
-
-     
-
-      - name: Upload to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-         appId: ${{ secrets.FIREBASE_APP_ID }}
-         serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-         groups: testers  # Define your Firebase tester group
-         releaseNotes: "New build from GitHub Actions CI/CD"
-         file: app/build/outputs/apk/release/app-release.apk       
+ 
