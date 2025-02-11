@@ -91,6 +91,7 @@ GitHub: SeethaIndiran
 ## Screen Shots
 ![image alt](https://github.com/SeethaIndiran/Weather-Forecast-App/blob/2eb2018adb5ee3b59eb667a8db491794ef5e1aa1/2%5B1%5D.png)
 ![image alt](https://github.com/SeethaIndiran/Weather-Forecast-App/blob/0dcd4923486cef105509bf643372a695b7c2d277/1%5B1%5D.png)
+![image alt](https://github.com/SeethaIndiran/Weather-Forecast-App/blob/c56c159a86ea881618548989db395c6695df42b7/3%5B1%5D.png)
 
 
 
