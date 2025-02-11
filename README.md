@@ -89,9 +89,8 @@ Email: seethaindhiran@gmail.com
 GitHub: SeethaIndiran
 
 ## Screen Shots
-[image alt](https://github.com/SeethaIndiran/Weather-Forecast-App/blob/0dcd4923486cef105509bf643372a695b7c2d277/1%5B1%5D.png)
-[image alt]()
-[image alt]()
+![image alt](https://github.com/SeethaIndiran/Weather-Forecast-App/blob/0dcd4923486cef105509bf643372a695b7c2d277/1%5B1%5D.png)
+
 
 
 
